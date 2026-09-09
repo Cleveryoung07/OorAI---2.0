@@ -7,7 +7,7 @@ from diagnostics.engine import diagnose
 app = FastAPI(
     title="OorAI Diagnostic Engine",
     description="Cross-layer diagnostics for connected systems",
-    version="0.1.0"
+    version="0.2.0"
 )
 
 
@@ -16,15 +16,18 @@ def root():
     return {
         "name": "OorAI",
         "status": "online",
-        "service": "diagnostic-engine"
+        "service": "diagnostic-engine",
+        "version": "0.2.0"
     }
 
 
 @app.post("/diagnose")
 def run_diagnosis(data: TelemetryData):
+
     result = diagnose(data.readings)
 
     return {
         "system": data.system,
+        "sensor_type": data.sensor_type,
         "diagnosis": result
     }
